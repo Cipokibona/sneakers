@@ -1,1 +1,53 @@
 /* You can add global styles to this file, and also import other style files */
+$font-app:"Montserrat", serif;
+body {
+    font-family: $font-app!important;
+  }
+
+// @import "../node_modules/bootstrap/scss/functions";
+// @import "../node_modules/bootstrap/scss/variables";
+// @import "../node_modules/bootstrap/scss/variables-dark";
+
+$yellow:#e9aa11;
+$primary: $yellow;
+$primary-light: rgba($primary, 0.2);
+
+
+.btn-primary {
+    color: white!important;
+}
+
+.primary-light-bg {
+    background-color: $primary-light;
+}
+
+.nav-link.active {
+    color: $primary!important;
+}
+
+.custom-span {
+    font-size: 0.8rem; 
+    padding: 0.625rem;    
+    border-radius: 0.25rem; 
+}
+
+// img-link
+.image-opacity {
+    opacity: 0.5; /* Réduit l'opacité à 50% */
+  }
+$taille-img: 6.5em;
+.w-img-link {
+    width: $taille-img!important;
+    height: $taille-img!important;
+    object-fit: cover!important;
+}
+
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+// profil
+$taille: 5em;
+
+.w-profil {
+    width: $taille;
+    height: $taille;
+}

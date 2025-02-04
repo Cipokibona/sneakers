@@ -1,0 +1,26 @@
+<h2>Biceps</h2>
+<div class="container">
+    <div class="row">
+@if(datasSneakers.length > 0){
+    @for(data of datasSneakers; track data.name){
+        <div class="col-3">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ data.name }}</h5>
+                    <p class="card-text"><strong>Type :</strong> {{ data.type }}</p>
+                    <p class="card-text"><strong>Niveau :</strong> {{ data.difficulty }}</p>
+                    <p class="card-text"><strong>Instructions :</strong>
+                        {{ showFullInstructions[data.name] ? data.instructions : (data.instructions | slice:0:100) + '...' }}<br>
+                        <a href="#" (click)="toggleInstructions(data.name, $event)">
+                            {{ showFullInstructions[data.name] ? 'Voir moins' : 'Voir plus' }}
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        }
+}@else{
+    <p>Chargement des donnees...</p>
+}
+    </div>
+</div>
