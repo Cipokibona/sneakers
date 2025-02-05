@@ -12,10 +12,11 @@ import { Exercise } from '../services/database.service';
 export class MenComponent implements OnInit{
 
   datasSneakers: Exercise[]=[];
+  error: string | null = null;
+  loading: boolean = true;
+  showFullInstructions: { [key: string]: boolean } = {};
 
   constructor(private dataService: ApiService){}
-
-  showFullInstructions: { [key: string]: boolean } = {};
 
   toggleInstructions(name: string, event: Event) {
     event.preventDefault(); // Empêche le rechargement de la page
@@ -23,10 +24,21 @@ export class MenComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.dataService.getPosts().subscribe(
-      data => this.datasSneakers = data,
-      error => console.error("Erreur API:", error)
-    );
+    this.dataService.getPosts().subscribe({
+      next: (data) => {
+        this.datasSneakers = data;
+        this.loading = false;
+        this.error = null;
+      },
+      error: (error) => {
+        this.error = 'Echec du chargement. Reessayer plus tard.';
+        this.loading = false;
+        console.error('API Error', error);
+      },
+      complete: () => {
+        this.loading = false;
+      }
+    });
   }
 
 }
