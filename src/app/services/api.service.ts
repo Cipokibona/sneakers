@@ -9,7 +9,6 @@ import { error } from 'console';
 })
 export class ApiService {
 
-  private apiKey = '1zMgkNFeKNUrtC+NhkEcpw==563vnlemN3cEU9Vd';
   private apiUrl = 'https://api.api-ninjas.com/v1/exercises';
 
   constructor(private http: HttpClient) { }
@@ -18,20 +17,13 @@ export class ApiService {
     return await db.exercises.where('muscle').equals('biceps').toArray();
   }
 
-  // getPosts(): Observable<any[]>{
-  //   const headers = new HttpHeaders({'X-Api-Key': this.apiKey});
-  //   const url = `${this.apiUrl}?muscle=biceps`;
-  //   return this.http.get<any[]>(url, { headers }).pipe();
-  // };
-
   getPosts(): Observable<Exercise[]>{
     return from(this.getFromIndexedDB()).pipe(
       tap(async (cachedData) => {
         if (cachedData.length === 0){
-          const headers = new HttpHeaders({'X-Api-Key': this.apiKey});
           const url = `${this.apiUrl}?muscle=biceps`;
 
-          this.http.get<Exercise[]>(url, { headers }).subscribe(
+          this.http.get<Exercise[]>(url).subscribe(
             async (apiData) => {
               await db.exercises.bulkAdd(apiData);
             },
@@ -42,9 +34,8 @@ export class ApiService {
       catchError(error => {
         console.error('Error accessing IndexedDB:', error);
 
-        const headers = new HttpHeaders({'X-Api-Key': this.apiKey});
         const url = `${this.apiUrl}?muscle=biceps`;
-        return this.http.get<Exercise[]>(url, {headers});
+        return this.http.get<Exercise[]>(url);
       })
     );
   }
